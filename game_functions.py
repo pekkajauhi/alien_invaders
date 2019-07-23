@@ -5,7 +5,7 @@ from bullet import Bullet
 from alien import Alien
 import random
 
-def check_keydown_events(event, ai_settings, screen, ship, bullets):
+def check_keydown_events(event, ai_settings, screen, stats, ship, bullets):
     """Respond to keypresses"""
     if event.key == pygame.K_RIGHT:
         # Move the ship to the right
@@ -15,6 +15,8 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
     elif event.key == pygame.K_SPACE:
         fire_bullet(ai_settings, screen, ship, bullets)
     elif event.key == pygame.K_q:
+        with open('high_score.txt', 'w') as file_object:
+            file_object.write(str(stats.high_score))
         sys.exit()
 
 def fire_bullet(ai_settings, screen, ship, bullets):
@@ -38,7 +40,7 @@ def check_events(ai_settings, screen, stats, sb, play_button, ship, aliens, bull
             sys.exit()
 
         elif event.type == pygame.KEYDOWN:
-            check_keydown_events(event, ai_settings, screen, ship, bullets)
+            check_keydown_events(event, ai_settings, screen, stats, ship, bullets)
 
         elif event.type == pygame.KEYUP:
                 check_keyup_events(event, ship)
@@ -220,6 +222,4 @@ def check_high_score(stats, sb):
     """Check to see if there's a new high score."""
     if stats.score > stats.high_score:
         stats.high_score = stats.score
-        with open('high_score.txt', 'w') as file_object:
-            file_object.write(str(stats.high_score))
         sb.prep_high_score()
