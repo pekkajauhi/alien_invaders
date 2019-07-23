@@ -220,4 +220,6 @@ def check_high_score(stats, sb):
     """Check to see if there's a new high score."""
     if stats.score > stats.high_score:
         stats.high_score = stats.score
+        with open('high_score.txt', 'w') as file_object:
+            file_object.write(str(stats.high_score))
         sb.prep_high_score()
